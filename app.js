@@ -158,6 +158,125 @@ function addEmployee() {
                 }) ;  
             });
         });
+};
+
+function addRole(){
+    inquirer
+        .prompt([
+            {
+                type: "text",
+                name: "role",
+                message: "What is the name of the role?",
+            },
+            {
+                type: "text",
+                name: "salary",
+                message: "What is the role's salary?",
+            },
+        ])
+        .then((res) => {
+            let roleName = res.role;
+            let roleSalary = res.salary;
+            console.log(roleName);
+            console.log(roleSalary);
+
+            db.findDepartments().then(([data]) => {
+                const dept = data.map(({ id, Department }) => ({
+                    name: Department,
+                    value: id,
+                }));
+            inquirer
+                .prompt([
+                    {
+                        type: "list",
+                        name: "deptName",
+                        message: "Which department is the new role in?",
+                        choices: dept,
+                    },
+                ])
+                .then((res) => {
+                    let deptAddRole = res.deptName;
+                    console.log(deptAddRole);
+                    const newRole = {
+                        title: roleName,
+                        salary: roleSalary, 
+                        department_id: deptAddRole,
+                    };
+                 db.addRole(newRole);
+                })
+                .then (() => init());
+            });
+        });
+}
+
+function addDepartment() {
+    inquirer
+        .prompt([
+            {
+                type: "text",
+                name: "newDepartment",
+                message: "What's the name of the new department?"
+            },   
+        ])
+        .then((res) => {
+            let addDept = res.newDepartment;
+            console.log(addDept);
+            let addNewDept = {
+                name: addDept,
+            };
+        db.addDepartment(addNewDept);
+        })
+        .then(() => init());       
+}
+
+function updateEmployee() {
+    db.findEmployees().then(([data]) => {
+        const empName = data.map(({ id, first_name, last_name }) => ({
+            name: first_name.concat(" ", last_name),
+            value: id,
+        }));
+    inquirer
+        .prompt([
+            {
+                type: "list",
+                name: "updateRole",
+                message: "Which employee's role needs updating?",
+                choices: empName,
+            },
+        ])
+        .then((res) => {
+            let er = res.updateRole;
+            console.log(er);
+            db.findRoles().then(([data]) => {
+                const empRole = data.map(({ id, title }) => ({
+                    name: title,
+                    value: id,
+                }));
+
+                inquirer
+                    .prompt([
+                        {
+                            type: "list",
+                            name: "updatedRole",
+                            message: "What is the employee's new role?",
+                            choices: empRole,
+
+                        },
+                    ])
+                    .then((res) => {
+                        let newEmployeeRole = res.updatedRole;
+                        console.log(newEmployeeRole);
+
+                        const roleUpdate = {
+                            role_id: newEmployeeRole,
+                            id: er,
+                        };
+                        db.updateEmployee(roleUpdate);
+                    })
+                    .then(() => init());
+            });
+        });
+    });
 }
 
 init();
