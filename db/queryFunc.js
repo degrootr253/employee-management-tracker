@@ -1,4 +1,4 @@
-const connection = require("./connection");
+const connection = require("../config/connection");
 
 
 class QUERY {
@@ -6,7 +6,7 @@ class QUERY {
     this.connection = connection;
   }
 
-  
+
   findEmployees() {
     return this.connection
       .promise()
