@@ -1,0 +1,27 @@
+{
+  "name": "employee-management-app",
+  "version": "1.0.0",
+  "description": "Employee management applicaition using the terminal.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node jest",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/degrootr253/employee-management-app.git"
+  },
+  "author": "Ryan DeGroot",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/degrootr253/employee-management-app/issues"
+  },
+  "homepage": "https://github.com/degrootr253/employee-management-app#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "express": "^4.17.2",
+    "inquirer": "^7.3.3",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3"
+  }
+}
